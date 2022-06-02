@@ -1,7 +1,8 @@
+import tkinter
 from tkinter import *
 import requests
-##from io import BytesIO
-##from PIL import Image
+from io import BytesIO
+from PIL import Image,ImageTk
 
 ###def col_c():
     ##if col_c > 0:
@@ -14,6 +15,17 @@ def find(symbol):
     api = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY='
     api += key
     ans = requests.get(api).json()
+    for item in ans['data']:
+        if  symbol.lower() == item['symbol'].lower():
+            r = requests.get(url=f'https://s2.coinmarketcap.com/static/img/coins/64x64/{item.get("id")}.png')
+            pil_image = Image.open(BytesIO(r.content))
+            pil_image.save(BytesIO(), format='PNG')
+            pil_image.thumbnail((35, 35))
+
+            img = ImageTk.PhotoImage(pil_image)
+            Label1 = tkinter.Label(image=img)
+            Label1.image = img
+            Label1.place(x=45, y=150,)
 
     for i in ans['data']:
         if symbol.lower() == i['symbol'].lower():
@@ -51,6 +63,8 @@ window = Tk()
 var = IntVar()
 window.geometry("600x600")
 window.resizable(width=False, height=False)
+window.title("Парсинг криптовалюты")
+window.iconphoto(True, PhotoImage(file='1.png'))
 ###indow.configure(background='w'
 def clear():
     e1.delete(0,'end')
@@ -99,8 +113,8 @@ def day():
     rad2['bg'] = '#ffffff'
     rad1['bg'] = '#ffffff'
     window.configure(bg='white')
-rad1 = Radiobutton(window,text='Розовый',value =0,command=night, variable = var)
-rad2 = Radiobutton(window,text='Белый',value =1,command=day, variable = var)
+rad1 = Radiobutton(window,text='Розовый',value =1,command=night, variable = var)
+rad2 = Radiobutton(window,text='Белый',value =2,command=day, variable = var)
 rad1.place(x=320,y=180) ## розовый
 rad2.place(x=320,y=150) ## белый
 text = e1.get()
