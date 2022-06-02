@@ -23,10 +23,9 @@ def find(symbol):
             pil_image.thumbnail((35, 35))
 
             img = ImageTk.PhotoImage(pil_image)
-            Label1 = tkinter.Label(image=img)
+            Label1 = tkinter.Label(image=img,)
             Label1.image = img
             Label1.place(x=45, y=150,)
-
     for i in ans['data']:
         if symbol.lower() == i['symbol'].lower():
             price =f"{round(i['quote']['USD']['price'],3)}$"
@@ -89,7 +88,7 @@ lbl7 = Label(window, text=" ", font=("Comic Sans", 15)) ## Цена за 30 дн
 lbl7.place(x=20,y=400)
 lbl8 = Label(window, text=" ", font=("Comic Sans", 15)) ## Цена текст
 lbl8.place(x=40,y=200)
-def night():
+def pink():
     ##lbl['bg'] = '#000000'
     lbl7['bg'] ='#ffb6c1'
     lbl4['bg'] ='#ffb6c1'
@@ -113,7 +112,7 @@ def day():
     rad2['bg'] = '#ffffff'
     rad1['bg'] = '#ffffff'
     window.configure(bg='white')
-rad1 = Radiobutton(window,text='Розовый',value =1,command=night, variable = var)
+rad1 = Radiobutton(window,text='Розовый',value =1,command=pink, variable = var)
 rad2 = Radiobutton(window,text='Белый',value =2,command=day, variable = var)
 rad1.place(x=320,y=180) ## розовый
 rad2.place(x=320,y=150) ## белый
