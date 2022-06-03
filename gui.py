@@ -4,6 +4,7 @@ import requests
 from io import BytesIO
 from PIL import Image,ImageTk
 
+
 ###def col_c():
     ##if col_c > 0:
          ###   lbl2.configure(fg='green')
@@ -15,6 +16,18 @@ def find(symbol):
     api = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY='
     api += key
     ans = requests.get(api).json()
+
+    for item in ans['data']:
+        if symbol.lower() == item['symbol'].lower():
+            r = requests.get(url=f'https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/{item.get("id")}.png')
+            pil_image = Image.open(BytesIO(r.content))
+            pil_image.save(BytesIO(), format='PNG')
+
+            img = ImageTk.PhotoImage(pil_image)
+            Label2 = tkinter.Label(image=img, )
+            Label2.image = img
+            Label2.place(x=145, y=150, )
+
     for item in ans['data']:
         if  symbol.lower() == item['symbol'].lower():
             r = requests.get(url=f'https://s2.coinmarketcap.com/static/img/coins/64x64/{item.get("id")}.png')
@@ -42,6 +55,7 @@ def find(symbol):
             lbl8.configure(text='Цена \n')
 
 
+
             if i['quote']['USD']['percent_change_7d'] < 0:
                 lbl2.configure(fg='black') ## Цена вверх
                 lbl6.configure(fg='red') ## за 7 дней низ
@@ -63,7 +77,7 @@ var = IntVar()
 window.geometry("600x600")
 window.resizable(width=False, height=False)
 window.title("Парсинг криптовалюты")
-window.iconphoto(True, PhotoImage(file='1.png'))
+####window.iconphoto(True, PhotoImage(file='1.png'))
 ###indow.configure(background='w'
 def clear():
     e1.delete(0,'end')
